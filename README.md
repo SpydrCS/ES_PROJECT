@@ -3,9 +3,10 @@
 # Team name
 
 ## Members
+António José Salazar Correia - 201804832
+Shirley Fermino Rodrigues Fortes - 201808614
+Tomás Pereira Maciel - 202006845
 
-Student Name - Student number
-...
 
 # Product Name
 
