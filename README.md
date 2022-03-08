@@ -8,10 +8,10 @@
 - Tomás Pereira Maciel - 202006845
 
 
-# Product Name
+# EasyFood
 
 ## Vision Stament
-To do (see the Product vision template here: https://uxstudioteam.com/ux-blog/product-vision/)
+Mostrar e recolher informações dos consumidores da cantina da FEUP (lotação, preço, horas do serviço, menu) e também submeter uma avaliação do menu que consumiu.
 
 ## Main Features
  - Canteen information - 
