@@ -11,7 +11,7 @@
 # EasyFood
 
 ## Vision Stament
-Mostrar e recolher informações dos consumidores da cantina da FEUP (lotação, preço, horas do serviço, menu) e também submeter uma avaliação do menu que consumiu.
+Show and recall canteen consumers' information (lotation, price, service hours, menu) and also submit an evaluation of the menu consumed.
 
 ## Main Features
  - Canteen information - 
