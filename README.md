@@ -15,7 +15,7 @@ Show and recall canteen consumers' information (lotation, price, service hours, 
 
 ## Main Features
  - Canteen information - 
-Show service hours, price, number of people in the canteen, menus. allows you to select the food consumed and a valuation. 
+Show service hours, price, number of people in the canteen, menus. allows you to select the food consumed and a valuation (1-5 stars + a commentary).
 
 ## Required API's
 - Mobile GPS.
