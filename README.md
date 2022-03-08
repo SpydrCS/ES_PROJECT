@@ -14,9 +14,9 @@
 To do (see the Product vision template here: https://uxstudioteam.com/ux-blog/product-vision/)
 
 ## Main Features
- - Feature 1 - Short description
- - Feature 2 - Short description
-...
+ - Canteen information - 
+Show service hours, price, number of people in the canteen, menus. allows you to select the food consumed and a valuation. 
 
 ## Required API's
-- Student timetable from sigarra
+- Mobile GPS.
+- Look for information about the canteen (menu, price, service hours) on the sigarra page.
