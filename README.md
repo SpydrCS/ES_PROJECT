@@ -20,7 +20,6 @@ Students will benefit much from this access, and the developers team will be cap
 ## Main Features
 ### Canteen information 
 - Show service hours
-- Price
 - Number of people in the canteen
 - Menus (Meet, Fish, Vegetarian) 
 
