@@ -14,7 +14,6 @@
 ## Vision Stament
 Feup students who require a more convenient and practical means of accessing information about the cantine and providing feedback.
 EasyFood is an app that displays cantieen service hours, the number of people in the canteen, and menus, as well as allowing you to do  a compliment to the food and service.
-
 Students will benefit much from this access, and the developers team will be capable of performing software engineering.
 
 ## Main Features
@@ -28,7 +27,7 @@ Students will benefit much from this access, and the developers team will be cap
 - Sugestion about the menu
 
 ### Check-in and check-out
-- Ability of saying if you're on the canteen or not.
+- User can say if they are on the canteen or not.
 
 ## Required API's
 - Mobile GPS.
