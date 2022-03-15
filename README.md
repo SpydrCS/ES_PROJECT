@@ -18,8 +18,18 @@ EasyFood is an app that displays cantieen service hours, the number of people i
 Students will benefit much from this access, and the developers team will be capable of performing software engineering.
 
 ## Main Features
- - Canteen information - 
-Show service hours, price, number of people in the canteen, menus. allows you to select the food consumed and a valuation (1-5 stars + a commentary).
+### Canteen information 
+- Show service hours
+- Price
+- Number of people in the canteen
+- Menus (Meet, Fish. Vegetarian) 
+
+### Feeback
+- Select the food consumed and a give a feedback (1-5 stars + a commentary)
+- Sugestion about the menu
+
+### Location
+- Indentifies if you´re on the canteen or not
 
 ## Required API's
 - Mobile GPS.
