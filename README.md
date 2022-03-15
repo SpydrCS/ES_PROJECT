@@ -28,6 +28,8 @@ Students will benefit much from this access, and the developers team will be cap
 - Select the food consumed and a give a feedback (1-5 stars + a commentary)
 - Sugestion about the menu
 
+### Check-in and check-out
+- Ability of saying if you're on the canteen or not.
 
 ## Required API's
 - Mobile GPS.
