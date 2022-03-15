@@ -22,14 +22,12 @@ Students will benefit much from this access, and the developers team will be cap
 - Show service hours
 - Price
 - Number of people in the canteen
-- Menus (Meet, Fish. Vegetarian) 
+- Menus (Meet, Fish, Vegetarian) 
 
 ### Feeback
 - Select the food consumed and a give a feedback (1-5 stars + a commentary)
 - Sugestion about the menu
 
-### Location
-- Indentifies if you´re on the canteen or not
 
 ## Required API's
 - Mobile GPS.
