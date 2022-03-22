@@ -23,7 +23,7 @@
 | *Name* | Get information |
 | *Actor* |  User | 
 | *Description* | - Have access to informations about canteen on the app |
-| *Preconditions* | - The user has to been logged in. |
+| *Preconditions* |  |
 | *Postconditions* | - The user can see the information |
 | *Normal flow* | 1.	The user opens the app <br> 2.	The user logs in on the system. <br> 3. The user does the check-in <br> 4.	The app shows the available informations. <br> 5.	The user selects the information that it needs. <br> 6.	The user can see the selected information |
 | *Alternative flows and exceptions* |  |
@@ -34,10 +34,10 @@
 | *Name* | Check-out  |
 | *Actor* |  User | 
 | *Description* | - The user can check-out after finishing his meal, indicating that he is leaving the canteen. |
-| *Preconditions* | - The user has to be logged in  <br> - The user is already checked-in  |
-| *Postconditions* | - The user is now checked-out. <br> - The information on the number of people in the canteen is updated.  |
-| *Normal flow* | 1.	User loggs in  <br> 2.User does the check-in  <br> 3.User finish his meal and leave the canteen, so it checks-out.   |
-| *Alternative flows and exceptions* |  |
+| *Preconditions* | - The user has to be already checked-in  |
+| *Postconditions* | - The system shows the feedback interface. <br> - The information on the number of people in the canteen is updated.  |
+| *Normal flow* | 1. User does the check-in <br> 2. The system displays check-out option. <br> 3. User selects check-out option. <br> 4. The system displays a check-out successfully message. |
+| *Alternative flows and exceptions* | [Check-in fails] If step 1 fails because the user didn't check in first, then the system requests the user to check in|
 
 
 |||
@@ -45,7 +45,7 @@
 | *Name* | Give feedback |
 | *Actor* |  User | 
 | *Description* | - Select the food consumed and give a feedback to it (1-5 stars + optional commentary) |
-| *Preconditions* | - The user has to be logged in. <br> - The user is already checked-in. <br> - The user has to check out. |
+| *Preconditions* | - The user has to check out. |
 | *Postconditions* | -  The user feedback is sent to the system. |
 | *Normal flow* | 1.	After finishing his meal, the user opens the app on his phone <br> 2. The user checks out in the app, to inform that he has finished his meal <br> 3.	The app displays stars, and the user selects the number of stars he evaluates the meal <br> 4. Then, the app displays an empty box where the user can write a commentary<br> |
 | *Alternative flows and exceptions* | 1. [Try to give feedback without being checked out If step 2 fails because the user tries to give feedback without first doing the check-out, the system displays an error message, informing the user to do the check-out before giving feedback. <br> |
