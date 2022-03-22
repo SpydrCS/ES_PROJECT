@@ -7,6 +7,7 @@
 - Shirley Fermino Rodrigues Fortes - 201808614
 - Tomás Pereira Maciel - 202006845
 - Simao Queirós Rodrigues - 202005700
+- Guilherme Valler Moreira - 202007036
 
 
 # EasyFood
