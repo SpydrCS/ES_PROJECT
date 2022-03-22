@@ -1,7 +1,7 @@
 
-# Use Case Model
- 
-# EasyFood
+## Requeriments 
+
+### Use Case Model
 
  <p align="center" justify="center">
   <img src="https://github.com/LEIC-ES-2021-22/2LEIC03T3/blob/main/n.drawio.png"/>
@@ -53,7 +53,7 @@
  
  
     
-# User stories
+### User stories
 
 
-# Domain model
+### Domain model
