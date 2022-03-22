@@ -33,6 +33,9 @@ Students will benefit much from this access, and the developers team will be cap
 - Mobile GPS.
 - Look for information about the canteen (menu, price, service hours) on the sigarra page.
 
+ <p align="center" justify="center">
+  <img src="https://github.com/LEIC-ES-2021-22/2LEIC03T3/blob/main/n.drawio.png"/>
+</p>
 
 |||
 | --- | --- |
