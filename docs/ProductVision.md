@@ -1,4 +1,4 @@
-##Product Vision
+## Product Vision
 
 ### Vision Statement
 FEUP students who require a more convenient and practical means of accessing information about the cantine and providing feedback.
