@@ -18,6 +18,6 @@ Students will benefit much from this access, and the developers team will be cap
 #### Check-in and check-out
 - User can say if they are in the canteen or not.
 
-## Required API's
+### Required API's
 - Mobile GPS.
 - Search informations about the canteen (menu, price, service hours) on the sigarra page.
