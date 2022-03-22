@@ -47,3 +47,13 @@
 | *Postconditions* | - The user gives a star feedback (1-5 stars). <br> -	The user gives a star feedback (1-5 stars). <br> -	The user sends his feedback. |
 | *Normal flow* | 1.	After finishing his meal, the user opens the app in his phone <br> 2. The user checks out in the app, to inform that he has finished his meal <br> 3.	The app displays stars, and the user selects the number of stars he evaluates the meal <br> 4. Then, the app displays an empty box where the user can write a commentary <br> 5.	Then, the app displays an empty box where the user can write a commentary <br> |
 | *Alternative flows and exceptions* |  |
+
+|||
+| --- | --- |
+| *Name* | Check-out  |
+| *Actor* |  User | 
+| *Description* | - The user can check-out after finishing his meal, indicating that he is leaving the canteen. |
+| *Preconditions* | - The user has to be logged in  <br> - The user is already checked-in  |
+| *Postconditions* | - The user is now checked-out <br> |
+| *Normal flow* | 1.	User loggs in  <br> 2.User does the check-in  <br> 3.User finish his meal and leave the canteen, so it checks-out.   |
+| *Alternative flows and exceptions* |  |
