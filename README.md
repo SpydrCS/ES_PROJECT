@@ -52,7 +52,7 @@ Students will benefit much from this access, and the developers team will be cap
 | *Name* | Get information |
 | *Actor* |  User | 
 | *Description* | - Description	Have access to informations about canteen on the app |
-| *Preconditions* | - The user have to been logged in. |
+| *Preconditions* | - The user has to been logged in. |
 | *Postconditions* | - The user can see the information |
 | *Normal flow* | 1.	The user opens the app <br> 2. 2.	The user logs in on the system. <br> 3. The user does the check-in <br> 4.	The app shows the available informations. <br> 5.	The user selects the information that it needs. <br> 6. 5.	The user can see the selected information |
 | *Alternative flows and exceptions* |  |
