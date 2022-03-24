@@ -4,7 +4,7 @@
 ### Use Case Model
 
  <p align="center" justify="center">
-  <img src="https://github.com/LEIC-ES-2021-22/2LEIC03T3/blob/main/n.drawio.png"/>
+  <img src="https://github.com/LEIC-ES-2021-22/2LEIC03T3/blob/main/images/useCaseView.png"/>
 </p>
 
 |||
