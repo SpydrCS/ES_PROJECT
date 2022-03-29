@@ -47,7 +47,7 @@
 | *Description* | - Select the food consumed and give a feedback to it (1-5 stars + optional commentary) |
 | *Preconditions* | - The user has to check out. |
 | *Postconditions* | -  The user feedback is sent to the system. |
-| *Normal flow* | 1.	After finishing his meal, the user opens the app on his phone <br> 2. The user checks out in the app, to inform that he has finished his meal <br> 3.	The app displays stars, and the user selects the number of stars he evaluates the meal <br> 4. Then, the app displays an empty box where the user can write a commentary<br> |
+| *Normal flow* | 1.	After finishing his meal, the user opens the app on his phone <br> 2. The user checks out in the app, to inform that it has finished the meal <br> 3.	The app displays stars, and the user selects the number of stars he evaluates the meal <br> 4. Then, the app displays an empty box where the user can write a commentary<br> |
 | *Alternative flows and exceptions* | 1. [Try to give feedback without being checked out If step 2 fails because the user tries to give feedback without first doing the check-out, the system displays an error message, informing the user to do the check-out before giving feedback. <br> |
  
  
