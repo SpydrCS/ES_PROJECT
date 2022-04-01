@@ -56,3 +56,9 @@
 
 
 ### Domain model
+
+<p align="center" justify="center">
+  <img src="https://github.com/LEIC-ES-2021-22/2LEIC03T3/blob/main/images/domainModel.png"/>
+</p>
+
+
