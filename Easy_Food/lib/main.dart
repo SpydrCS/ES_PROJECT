@@ -81,23 +81,29 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             children: <Widget>[
               const Text(
-                  'Horário de Funcionamento',
-                  style: TextStyle(
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.underline,
-                  ),
+                'Horário de Funcionamento',
+                style: TextStyle(
+                  fontSize: 35,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+              const Text(
+                '(Segunda a sexta)',
+                style: TextStyle(
+                  fontSize: 15,
+                )
               ),
               SizedBox(height: 100),
               const Text(
-                'Almoço - Horário: 11:30 às 14:00',
+                'Almoço: 11:30 - 14:00',
                 style: TextStyle(
                   fontSize: 20
                 )
               ),
               SizedBox(height: 20),
               const Text(
-                'Jantar - Horário: 18:30 às 20:30',
+                'Jantar: 18:30 - 20:30',
                 style: TextStyle(
                   fontSize: 20
                 )
