@@ -4,6 +4,22 @@ void main() {
   runApp(const MyApp());
 }
 
+String getStartLunch() { // TODO: get numbers from website
+  return "11:30";
+}
+
+String getEndLunch() { // TODO: get numbers from website
+  return "14:00";
+}
+
+String getStartDinner() { // TODO: get numbers from website
+  return "18:30";
+}
+
+String getEndDinner() { // TODO: get numbers from website
+  return "20:30";
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -48,18 +64,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Container (
-          margin: EdgeInsets.only(top: 100),
+          margin: const EdgeInsets.only(top: 100),
           child: Column(
             children: <Widget>[
               const Text(
@@ -94,17 +98,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   fontSize: 15,
                 )
               ),
-              SizedBox(height: 100),
-              const Text(
-                'Almoço: 11:30 - 14:00',
-                style: TextStyle(
+              const SizedBox(height: 100),
+              Text(
+                'Almoço: ' + getStartLunch() + ' - ' + getEndLunch(),
+                style: const TextStyle(
                   fontSize: 20
                 )
               ),
-              SizedBox(height: 20),
-              const Text(
-                'Jantar: 18:30 - 20:30',
-                style: TextStyle(
+              const SizedBox(height: 20),
+              Text(
+                'Jantar: ' + getStartDinner() + ' - ' + getEndDinner(),
+                style: const TextStyle(
                   fontSize: 20
                 )
               )
