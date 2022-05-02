@@ -75,35 +75,42 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Container (
-          margin: EdgeInsets.only(top: 100),
-          child: Column(
-            children: <Widget>[
-              const Text(
-                  'Horário de Funcionamento',
-                  style: TextStyle(
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.underline,
-                  ),
-              ),
-              SizedBox(height: 100),
-              const Text(
-                'Almoço - Horário: 11:30 às 14:00',
+      body: Padding(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
+        padding: const EdgeInsets.only(
+          left: 400.0,
+          top: 100.0,
+        ),
+        child: Column(
+          // Column is also a layout widget. It takes a list of children and
+          // arranges them vertically. By default, it sizes itself to fit its
+          // children horizontally, and tries to be as tall as its parent.
+          //
+          // Invoke "debug painting" (press "p" in the console, choose the
+          // "Toggle Debug Paint" action from the Flutter Inspector in Android
+          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+          // to see the wireframe for each widget.
+          //
+          // Column has various properties to control how it sizes itself and
+          // how it positions its children. Here we use mainAxisAlignment to
+          // center the children vertically; the main axis here is the vertical
+          // axis because Columns are vertical (the cross axis would be
+          // horizontal).
+          children: <Widget>[
+            const Text(
+                'You have pushed the button this many times:',
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 20
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
                 )
-              ),
-              SizedBox(height: 20),
-              const Text(
-                'Jantar - Horário: 18:30 às 20:30',
-                style: TextStyle(
-                  fontSize: 20
-                )
-              )
-            ],
-          ),
+            ),
+            const Text(
+              'Hello guys',
+              textAlign: TextAlign.left,
+            ),
+          ],
         ),
       ),
     );
