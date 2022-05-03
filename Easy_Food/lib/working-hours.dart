@@ -70,11 +70,6 @@ class WorkingHours extends StatelessWidget{
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
     );
   }
 }
