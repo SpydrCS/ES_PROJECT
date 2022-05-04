@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'nav.dart';
 import 'working-hours.dart';
+import 'menu.dart';
 
 void main() {
   runApp(const MyApp());
@@ -84,7 +85,9 @@ class _MyHomePageState extends State<MyHomePage> {
               textColor: Colors.white,
               color: Colors.indigo,
               padding: EdgeInsets.all(50),
-              onPressed: (){},
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const Menu()),);
+              },
             ),
             RaisedButton(
               child: Text("Latest Feedbacks"),
@@ -106,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Visibility(
               visible: _isVisible,
               child: Text(
-                'Assentos ocupados: ' + Spots + '/300', // TODO: somehow get the maxCapacity from MyHomePage class
+                'Assentos ocupados: ' + Spots + '/324', // TODO: somehow get the maxCapacity from MyHomePage class
                 style: TextStyle(
                   color: Colors.black,
                 ),
