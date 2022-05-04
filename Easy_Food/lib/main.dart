@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'nav.dart';
 import 'working-hours.dart';
 import 'menu.dart';
+import 'html.dart';
 
 void main() {
   runApp(const MyApp());
@@ -94,7 +95,9 @@ class _MyHomePageState extends State<MyHomePage> {
               textColor: Colors.white,
               color: Colors.indigo,
               padding: EdgeInsets.all(50),
-              onPressed: (){},
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => WebScraperApp()),);
+              },
             ),
             RaisedButton(
               child: Text("Check-in"),

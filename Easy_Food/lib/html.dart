@@ -1,79 +1,94 @@
-import 'package:controller/controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart'as http;
-import 'package:html/dom.dart' as dom;
-import 'package:html/parser.dart' as parser;
+import 'package:url_launcher/url_launcher.dart';
+import 'package:web_scraper/web_scraper.dart';
 
-void main() {
-  runApp(const MyApp());
+class WebScraperApp extends StatefulWidget {
+  @override
+  _WebScraperAppState createState() => _WebScraperAppState();
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class _WebScraperAppState extends State<WebScraperApp> {
+  // initialize WebScraper by passing base url of website
+  final webScraper = WebScraper('https://webscraper.io');
 
-  @override
-  Widget build(BuildContext context) {
-    return const GetMaterialApp(
-      home: HomePage(),
-    );
-  }
-}
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  // Response of getElement is always List<Map<String, dynamic>>
+  List<Map<String, dynamic>>? productNames;
+  late List<Map<String, dynamic>> productDescriptions;
 
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  DataController dataController = Get.put(DataController());
-  @override
-  void initState() {
-    getData();
-    super.initState();
-  }
-  getData()async{
-    DataController dataController = Get.put(DataController());
-    var response = await http.Client().get(Uri.parse('https://en.wikipedia.org/wiki/List_of_universities_in_Pakistan'));
-    dom.Document document = parser.parse(response.body);
-
-    for(int k = 0; k<=3;k++) {
-      var element = document.querySelectorAll('table>tbody')[k];
-      var data = element.querySelectorAll('tr');
-      for (int i = 1; i < data.length; i++) {
-        dataController.addName(data[i].children[0].text.toString().trim());
-        dataController.addLocation(data[i].children[1].text.toString().trim());
-      }
+  void fetchProducts() async {
+    // Loads web page and downloads into local state of library
+    if (await webScraper
+        .loadWebPage('/test-sites/e-commerce/allinone/computers/laptops')) {
+      setState(() {
+        // getElement takes the address of html tag/element and attributes you want to scrap from website
+        // it will return the attributes in the same order passed
+        productNames = webScraper.getElement(
+            'div.thumbnail > div.caption > h4 > a.title', ['href', 'title']);
+        productDescriptions = webScraper.getElement(
+            'div.thumbnail > div.caption > p.description', ['class']);
+      });
     }
   }
+
   @override
-  Widget build(BuildContext context) {
-    return GetBuilder<DataController>(builder: (_) => Scaffold(
-      appBar: AppBar(
-        title: Text('Data Scrap'),
-      ),
-      body: SafeArea(
-        child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: dataController.name.length,
-            itemBuilder: (BuildContext context,int index)
-            {
-              return Card(
-                child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                    children: [
-                      Expanded(child: Text(dataController.name[index].toString().trim(),style: const TextStyle(fontSize: 20,color: Colors.black,fontWeight: FontWeight.bold),)),
-                      Text(dataController.location[index].toString().trim(),style: const TextStyle(fontSize: 15,color: Colors.blueGrey),),
-                    ],
-                  ),
-                ),
-              );
-            }
-        ),
-      ),
-    ));
+  void initState() {
+    super.initState();
+    // Requesting to fetch before UI drawing starts
+    fetchProducts();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Fetch Data Example',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Scaffold(
+          appBar: AppBar(
+            title: Text('Product Catalog'),
+          ),
+          body: SafeArea(
+              child: productNames == null
+                  ? Center(
+                child:
+                CircularProgressIndicator(), // Loads Circular Loading Animation
+              )
+                  : ListView.builder(
+                  itemCount: productNames!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    // Attributes are in the form of List<Map<String, dynamic>>.
+                    Map<String, dynamic> attributes =
+                    productNames![index]['attributes'];
+                    return ExpansionTile(
+                      title: Text(attributes['title']),
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                child: Text(
+                                    productDescriptions[index]['title']),
+                                margin: EdgeInsets.only(bottom: 10.0),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  // uses UI Launcher to launch in web browser & minor tweaks to generate url
+                                  launch(webScraper.baseUrl! +
+                                      attributes['href']);
+                                },
+                                child: Text(
+                                  'View Product',
+                                  style: TextStyle(color: Colors.blue),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    );
+                  }))),
+    );
+  }
 }

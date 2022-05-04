@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 import 'mondayMenu.dart';
 import 'tuesdayMenu.dart';
 import 'wednesdayMenu.dart';
@@ -10,6 +14,18 @@ class Menu extends StatefulWidget {
 
   @override
   State<Menu> createState() => _Menu();
+}
+
+/*
+class MenuInfo {
+  final String data, carne, peixe, vegetariano;
+  MenuInfo(this.data, this.carne, this.peixe, this.vegetariano);
+}
+*/
+
+class User {
+  final String name, username, email;
+  User(this.email, this.name, this.username);
 }
 
 class _Menu extends State<Menu> {
@@ -48,6 +64,19 @@ class _Menu extends State<Menu> {
       Route route= MaterialPageRoute(builder: (bc) => const FridayMenu());
       Navigator.of(context).push(route);
     });
+  }
+
+  Future getUserData() async {
+    var response = await http.get(Uri.https('jsonplaceholder.typicode.com', 'users'));
+    var jsonData = jsonDecode(response.body);
+    List<User> menus = [];
+
+    for(var u in jsonData) {
+      User menuInfo = User(u['email'], u['name'], u['username']);
+      menus.add(menuInfo);
+    }
+    print(menus.length);
+    return menus;
   }
 
   @override
@@ -118,6 +147,14 @@ class _Menu extends State<Menu> {
               style: style,
               onPressed: () {showFridayMenu();},
               child: const Text('Sexta'),
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              style: style,
+              onPressed: () {
+                getUserData();
+              },
+              child: const Text('ShowLen (WIP)'),
             ),
           ],
         ),
