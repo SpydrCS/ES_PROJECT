@@ -40,20 +40,20 @@ class _MyHomePageState extends State<MyHomePage> {
   String Spots = "";
 
   _addEater() {
-    this.setState(() {
+    setState(() {
       freeSpots++;
       Spots = freeSpots.toString();
     });
   }
 
   _startRecording() {
-    this.setState(() {
+    setState(() {
       _isVisible = true;
     });
   }
 
   _stopRecording() {
-    this.setState(() {
+    setState(() {
       _isVisible = false;
     });
   }

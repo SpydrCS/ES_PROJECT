@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:wnetworking/wnetworking.dart';
 
 import 'mondayMenu.dart';
 import 'tuesdayMenu.dart';
@@ -68,15 +69,18 @@ class _Menu extends State<Menu> {
 
   Future getUserData() async {
     var response = await http.get(Uri.https('jsonplaceholder.typicode.com', 'users'));
+    //var response = await http.get(Uri.https('sigarra.up.pt', 'feup/pt/cantina.ementashow'),headers:{'Content-Type': 'application/json'});
     var jsonData = jsonDecode(response.body);
+    //print(jsonData);
+
     List<User> menus = [];
 
     for(var u in jsonData) {
       User menuInfo = User(u['email'], u['name'], u['username']);
       menus.add(menuInfo);
+      //print(menuInfo);
     }
     print(menus.length);
-    return menus;
   }
 
   @override
