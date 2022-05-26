@@ -1,8 +1,11 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'nav.dart';
 import 'working-hours.dart';
 import 'menu.dart';
 import 'html.dart';
+import 'package:location/location.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +28,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title, required this.maxCapacity}) : super(key: key);
+  MyHomePage({Key? key, required this.title, required this.maxCapacity}) : super(key: key);
 
   final String title;
   final String maxCapacity;
@@ -38,6 +41,8 @@ class _MyHomePageState extends State<MyHomePage> {
   var _isVisible = false;
   int freeSpots = 0;
   String Spots = "";
+  Location location = Location();
+
 
   _addEater() {
     setState(() {
@@ -56,6 +61,50 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _isVisible = false;
     });
+  }
+
+  bool isCanteenOpen(){
+    // TODO implement Canteen API to get canteen hours information and tedermine if the canteen is open
+    DateTime date = DateTime.now();
+    print(" Day: ${date.day}, Hour: ${date.hour}:${date.minute}");
+    return true;
+  }
+
+  Future<bool> isGPSActivated() async {
+    location = Location();
+    var _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return false;
+      }
+    }
+
+    var _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied){
+      _permissionGranted = await location.requestPermission();
+    }
+    if (_permissionGranted != PermissionStatus.granted) {
+      return false;
+    }
+    return true;
+  }
+
+  Future<bool> isInTheCanteen() async{
+    var _locationData = await location.getLocation();
+    //                          41.1773616, long: -8.5953062
+    // localizaçao da cantina : 41.176696, -8.595807  ponto up left
+    //                          41.176116, -8.595073  ponto down right
+    // https://www.google.pt/maps/place/Cantina+Faculdade+De+Engenharia+Da+Universidade+Do+Porto/@41.1770209,-8.5972127,17.8z/data=!4m13!1m7!3m6!1s0x0:0x3c6ee07e6025a87c!2zNDHCsDEwJzM4LjUiTiA4wrAzNSc0My4xIlc!3b1!8m2!3d41.1773616!4d-8.5953062!3m4!1s0xd24646a0a78494f:0xd02370fe6e90ce06!8m2!3d41.1762815!4d-8.5953035
+    // SI 41.176818, -8.596012
+    // DR 41.175912, -8.594982
+
+    if(_locationData.latitude! < 41.176818 && _locationData.latitude! > 41.175912 &&
+      _locationData.longitude! > -8.596012 && _locationData.longitude! < -8.594982   ){
+      return true;
+    }else{
+      return false;
+    }
   }
 
   @override
@@ -104,9 +153,19 @@ class _MyHomePageState extends State<MyHomePage> {
               textColor: Colors.black,
               color: Colors.indigo.shade300,
               padding: EdgeInsets.all(20),
-              onPressed: () {
-                _addEater();
-                _startRecording();
+              onPressed: () async {
+                // TODO: change prints to messages in the app
+                if(!isCanteenOpen()){
+                  print("The canteen is closed");
+                }else if(!await isGPSActivated()){
+                  print("Location services disabled");
+                }else if(await isInTheCanteen()){
+                  print("Please go to the canteen area to do the check-in");
+                }else{
+                  _addEater();
+                  _startRecording();
+                }
+
               },
             ),
             Visibility(
