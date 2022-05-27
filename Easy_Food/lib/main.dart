@@ -41,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   var _isVisible = false;
   var _isVisibleError = false;
   var _errorString = "";
+  var _checkType = "Check-in";
   int freeSpots = 0;
   String Spots = "";
   Location location = Location();
@@ -49,6 +50,12 @@ class _MyHomePageState extends State<MyHomePage> {
   _addEater() {
     setState(() {
       freeSpots++;
+      Spots = freeSpots.toString();
+    });
+  }
+  _removeEater() {
+    setState(() {
+      freeSpots--;
       Spots = freeSpots.toString();
     });
   }
@@ -156,31 +163,37 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             RaisedButton(
-              child: Text("Check-in"),
+              child: Text(_checkType),
               textColor: Colors.black,
-              color: Colors.indigo.shade300,
+              color: _checkType=="Check-out" ? Colors.red : Colors.green,
               padding: const EdgeInsets.all(20),
               onPressed: () async {
-                if(!isCanteenOpen()){
-                  setState(() {
-                    _isVisibleError = true;
-                    _errorString = "The canteen is closed";
-                  });
-                }else if(!await isGPSActivated()){
-                  setState(() {
-                    _isVisibleError = true;
-                    _errorString = "Location services disabled";
-                  });
-                }else if(!await isInsideTheCanteen()){
-                  setState(() {
-                    _isVisibleError = true;
-                    _errorString = "Please go to the canteen area to do the check-in";
-                  });
-                }else{
-                  _isVisibleError = false;
-                  _addEater();
-                  _startRecording();
-                }
+                if(_checkType == "Check-in") {
+                  if (!isCanteenOpen()) {
+                    setState(() {
+                      _isVisibleError = true;
+                      _errorString = "The canteen is closed";
+                    });
+                  } else if (!await isGPSActivated()) {
+                    setState(() {
+                      _isVisibleError = true;
+                      _errorString = "Location services disabled";
+                    });
+                  } else if (!await isInsideTheCanteen()) {
+                    setState(() {
+                      _isVisibleError = true;
+                      _errorString = "Please go to the canteen area to do the check-in";
+                    });
+                  } else {
+                    _isVisibleError = false;
+                    _checkType = "Check-out";
+                    _addEater();
+                    _startRecording();
+                  }
+                } else{
+                  _removeEater();
+                  _checkType = "Check-in";
+              }
               },
             ),
             Visibility(
