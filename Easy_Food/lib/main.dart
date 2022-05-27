@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:html';
 
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'EasyFood',
       theme: ThemeData(
@@ -42,10 +44,43 @@ class _MyHomePageState extends State<MyHomePage> {
   var _isVisibleError = false;
   var _errorString = "";
   var _checkType = "Check-in";
+  late Timer timer;
+  var _timerCount = 0;
   int freeSpots = 0;
   String Spots = "";
   Location location = Location();
 
+  _checkIn(){
+    setState(() {
+      _isVisibleError = false;
+      _checkType = "Check-out";
+      _startTimer();
+      _addEater();
+      _startRecording();
+      });
+  }
+
+  _checkOut(){
+    setState(() {
+      _checkType = "Check-in";
+      _removeEater();
+      _stopTimer();
+    });
+  }
+
+  _startTimer(){
+    _timerCount=0;
+    timer = Timer.periodic( const Duration(minutes: 1), (timer) {
+      _timerCount++;
+      if(_timerCount >= 30){ // Automatic check-out after 30 minutes
+        _checkOut();
+      }
+    });
+  }
+
+  _stopTimer(){
+    timer.cancel();
+  }
 
   _addEater() {
     setState(() {
@@ -179,21 +214,17 @@ class _MyHomePageState extends State<MyHomePage> {
                       _isVisibleError = true;
                       _errorString = "Location services disabled";
                     });
-                  } else if (!await isInsideTheCanteen()) {
+                  } else if (await isInsideTheCanteen()) {
                     setState(() {
                       _isVisibleError = true;
                       _errorString = "Please go to the canteen area to do the check-in";
                     });
                   } else {
-                    _isVisibleError = false;
-                    _checkType = "Check-out";
-                    _addEater();
-                    _startRecording();
+                    _checkIn();
                   }
                 } else{
-                  _removeEater();
-                  _checkType = "Check-in";
-              }
+                  _checkOut();
+                }
               },
             ),
             Visibility(
