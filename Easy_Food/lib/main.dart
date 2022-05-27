@@ -39,6 +39,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var _isVisible = false;
+  var _isVisibleError = false;
+  var _errorString = "";
   int freeSpots = 0;
   String Spots = "";
   Location location = Location();
@@ -90,15 +92,11 @@ class _MyHomePageState extends State<MyHomePage> {
     return true;
   }
 
-  Future<bool> isInTheCanteen() async{
+  Future<bool> isInsideTheCanteen() async{
     var _locationData = await location.getLocation();
-    //                          41.1773616, long: -8.5953062
-    // localizaçao da cantina : 41.176696, -8.595807  ponto up left
-    //                          41.176116, -8.595073  ponto down right
+    // Canteen Area : 41.176818, -8.596012   ( up left point )
+    //                41.175912, -8.594982   ( down right point )
     // https://www.google.pt/maps/place/Cantina+Faculdade+De+Engenharia+Da+Universidade+Do+Porto/@41.1770209,-8.5972127,17.8z/data=!4m13!1m7!3m6!1s0x0:0x3c6ee07e6025a87c!2zNDHCsDEwJzM4LjUiTiA4wrAzNSc0My4xIlc!3b1!8m2!3d41.1773616!4d-8.5953062!3m4!1s0xd24646a0a78494f:0xd02370fe6e90ce06!8m2!3d41.1762815!4d-8.5953035
-    // SI 41.176818, -8.596012
-    // DR 41.175912, -8.594982
-
     if(_locationData.latitude! < 41.176818 && _locationData.latitude! > 41.175912 &&
       _locationData.longitude! > -8.596012 && _locationData.longitude! < -8.594982   ){
       return true;
@@ -148,32 +146,49 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => WebScraperApp()),);
               },
             ),
-            RaisedButton(
-              child: Text("Check-in"),
-              textColor: Colors.black,
-              color: Colors.indigo.shade300,
-              padding: EdgeInsets.all(20),
-              onPressed: () async {
-                // TODO: change prints to messages in the app
-                if(!isCanteenOpen()){
-                  print("The canteen is closed");
-                }else if(!await isGPSActivated()){
-                  print("Location services disabled");
-                }else if(await isInTheCanteen()){
-                  print("Please go to the canteen area to do the check-in");
-                }else{
-                  _addEater();
-                  _startRecording();
-                }
-
-              },
-            ),
             Visibility(
               visible: _isVisible,
               child: Text(
                 'Assentos ocupados: ' + Spots + '/324', // TODO: somehow get the maxCapacity from MyHomePage class
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
+                ),
+              ),
+            ),
+            RaisedButton(
+              child: Text("Check-in"),
+              textColor: Colors.black,
+              color: Colors.indigo.shade300,
+              padding: const EdgeInsets.all(20),
+              onPressed: () async {
+                if(!isCanteenOpen()){
+                  setState(() {
+                    _isVisibleError = true;
+                    _errorString = "The canteen is closed";
+                  });
+                }else if(!await isGPSActivated()){
+                  setState(() {
+                    _isVisibleError = true;
+                    _errorString = "Location services disabled";
+                  });
+                }else if(!await isInsideTheCanteen()){
+                  setState(() {
+                    _isVisibleError = true;
+                    _errorString = "Please go to the canteen area to do the check-in";
+                  });
+                }else{
+                  _isVisibleError = false;
+                  _addEater();
+                  _startRecording();
+                }
+              },
+            ),
+            Visibility(
+              visible: _isVisibleError,
+              child: Text(
+                _errorString, // Canteen is not in working hours
+                style: const TextStyle(
+                  color: Colors.red,
                 ),
               ),
             ),
