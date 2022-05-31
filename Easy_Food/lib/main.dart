@@ -1,19 +1,33 @@
 import 'dart:async';
 import 'dart:html';
+import 'dart:math';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'nav.dart';
 import 'working-hours.dart';
 import 'menu.dart';
 import 'html.dart';
 import 'package:location/location.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options:
+    const FirebaseOptions(
+      apiKey: "AIzaSyC9ZSK2bN63MtCtI3-Ck7vZshFBmEp4j_U", // Your apiKey
+      appId: "easyfood-03", // Your appId
+      databaseURL: "https://easyfood-03-default-rtdb.europe-west1.firebasedatabase.app",
+      messagingSenderId: "953920604149", // Your messagingSenderId
+      projectId: "easyfood-03", // Your projectId
+    ),
+  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final Future<FirebaseApp>_fbApp = Firebase.initializeApp();
+  MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -24,13 +38,28 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
-      home: MyHomePage(title: 'EasyFood', maxCapacity: "324",),
+      home: FutureBuilder (
+        future: _fbApp,
+        builder: (context, snapshot) {
+          if(snapshot.hasError) {
+            print('You have an error! ${snapshot.error.toString()}');
+            return Text('Something went wrong!');
+          } else if (snapshot.hasData) {
+            return  MyHomePage(title: 'EasyFood', maxCapacity: "324");
+          } else {
+            return const Center (
+              child: CircularProgressIndicator(),
+            );
+          }
+
+        }
+      )
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title, required this.maxCapacity}) : super(key: key);
+  const MyHomePage({Key? key, required this.title, required this.maxCapacity}) : super(key: key);
 
   final String title;
   final String maxCapacity;
@@ -49,15 +78,18 @@ class _MyHomePageState extends State<MyHomePage> {
   int freeSpots = 0;
   String Spots = "";
   Location location = Location();
+  var _people = 0;
+
 
   _checkIn(){
-    setState(() {
+    setState(() async {
+      await database.update({'people': _people});
       _isVisibleError = false;
       _checkType = "Check-out";
       _startTimer();
       _addEater();
       _startRecording();
-      });
+    });
   }
 
   _checkOut(){
@@ -84,6 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _addEater() {
     setState(() {
+      _people++;
       freeSpots++;
       Spots = freeSpots.toString();
     });
@@ -95,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  _startRecording() {
+  _startRecording() async {
     setState(() {
       _isVisible = true;
     });
@@ -147,40 +180,52 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  final database = FirebaseDatabase.instance.ref();
+
   @override
   Widget build(BuildContext context) {
+    final people = database.child('people/');
+
+    people.onValue.listen((event) {
+      _people = event.snapshot.value as int;
+      setState((){
+        //_people = plp +1;
+        //print( "people: ${_people} ");
+      });
+    });
+
     return Scaffold(
         drawer: NavDrawer(),
         appBar: AppBar(
-          title: Text('EasyFood'),
+          title: const Text('EasyFood'),
         ),
         body: ButtonBar(
-          buttonPadding:EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+          buttonPadding:const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
           buttonMinWidth: 500,
           overflowDirection: VerticalDirection.down,
           overflowButtonSpacing: 50,
           alignment: MainAxisAlignment.center,
           children: [
             RaisedButton(
-              child: Text("Horário"),
+              child: const Text("Horário"),
               textColor: Colors.white,
               color: Colors.indigo,
-              padding: EdgeInsets.all(50),
+              padding: const EdgeInsets.all(50),
               onPressed: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const WorkingHours()),);
               },
             ),
             RaisedButton(
-              child: Text("Menu"),
+              child: const Text("Menu"),
               textColor: Colors.white,
               color: Colors.indigo,
-              padding: EdgeInsets.all(50),
+              padding: const EdgeInsets.all(50),
               onPressed: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const Menu()),);
               },
             ),
             RaisedButton(
-              child: Text("Latest Feedbacks"),
+              child: const Text("Latest Feedbacks"),
               textColor: Colors.white,
               color: Colors.indigo,
               padding: EdgeInsets.all(50),
@@ -220,7 +265,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       _errorString = "Please go to the canteen area to do the check-in";
                     });
                   } else {
-                    _checkIn();
+                    // await people.update({'people': 1});
+                    _checkIn;
                   }
                 } else{
                   _checkOut();
