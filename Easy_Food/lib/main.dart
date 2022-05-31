@@ -76,26 +76,25 @@ class _MyHomePageState extends State<MyHomePage> {
   late Timer timer;
   var _timerCount = 0;
   int freeSpots = 0;
-  String Spots = "";
+  String Spots = "12";
   Location location = Location();
+  final database = FirebaseDatabase.instance.ref();
   var _people = 0;
 
-
   _checkIn(){
-    setState(() async {
-      await database.update({'people': _people});
+    setState(() {
+      database.update({'people': _people + 1});
       _isVisibleError = false;
       _checkType = "Check-out";
       _startTimer();
-      _addEater();
       _startRecording();
     });
   }
 
   _checkOut(){
-    setState(() {
+    setState((){
+      database.update({'people': _people - 1});
       _checkType = "Check-in";
-      _removeEater();
       _stopTimer();
     });
   }
@@ -114,20 +113,6 @@ class _MyHomePageState extends State<MyHomePage> {
     timer.cancel();
   }
 
-  _addEater() {
-    setState(() {
-      _people++;
-      freeSpots++;
-      Spots = freeSpots.toString();
-    });
-  }
-  _removeEater() {
-    setState(() {
-      freeSpots--;
-      Spots = freeSpots.toString();
-    });
-  }
-
   _startRecording() async {
     setState(() {
       _isVisible = true;
@@ -143,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isCanteenOpen(){
     // TODO implement Canteen API to get canteen hours information and tedermine if the canteen is open
     DateTime date = DateTime.now();
-    print(" Day: ${date.day}, Hour: ${date.hour}:${date.minute}");
+    //print(" Day: ${date.day}, Hour: ${date.hour}:${date.minute}");
     return true;
   }
 
@@ -180,18 +165,13 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  final database = FirebaseDatabase.instance.ref();
 
   @override
   Widget build(BuildContext context) {
     final people = database.child('people/');
-
     people.onValue.listen((event) {
       _people = event.snapshot.value as int;
-      setState((){
-        //_people = plp +1;
-        //print( "people: ${_people} ");
-      });
+      print("hello");
     });
 
     return Scaffold(
@@ -228,15 +208,15 @@ class _MyHomePageState extends State<MyHomePage> {
               child: const Text("Latest Feedbacks"),
               textColor: Colors.white,
               color: Colors.indigo,
-              padding: EdgeInsets.all(50),
+              padding: const EdgeInsets.all(50),
               onPressed: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => WebScraperApp()),);
               },
             ),
             Visibility(
-              visible: _isVisible,
+              visible: isCanteenOpen() ,
               child: Text(
-                'Assentos ocupados: ' + Spots + '/324', // TODO: somehow get the maxCapacity from MyHomePage class
+                'Assentos ocupados: $_people /324', // TODO: somehow get the maxCapacity from MyHomePage class
                 style: const TextStyle(
                   color: Colors.black,
                 ),
@@ -265,8 +245,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       _errorString = "Please go to the canteen area to do the check-in";
                     });
                   } else {
-                    // await people.update({'people': 1});
-                    _checkIn;
+                    _checkIn();
                   }
                 } else{
                   _checkOut();
