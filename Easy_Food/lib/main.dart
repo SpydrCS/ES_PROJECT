@@ -171,6 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final people = database.child('people/');
     people.onValue.listen((event) {
       _people = event.snapshot.value as int;
+      setState(() {});
       print("hello");
     });
 
