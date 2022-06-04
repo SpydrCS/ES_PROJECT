@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:html';
 import 'dart:math';
 
@@ -6,6 +7,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'nav.dart';
 import 'working-hours.dart';
+import './feedback.dart';
 import 'menu.dart';
 import 'html.dart';
 import 'feedback-view.dart';
@@ -81,6 +83,28 @@ class _MyHomePageState extends State<MyHomePage> {
   Location location = Location();
   final database = FirebaseDatabase.instance.ref();
   var _people = 0;
+
+// gets feedbacks from database to create the feedback history
+  _printAllFeedbackFromDB(){
+    final feedbacks = database.child('feedbacks/');
+    feedbacks.onValue.listen((event) {
+      for (DataSnapshot child in event.snapshot.children) {
+        String menu  = child.child('menu/').value.toString();
+        String text  = child.child('text/').value.toString();
+        int stars    = int.parse(child.child('stars/').value.toString());
+        String date  = child.child('date/').value.toString();
+        String hour  = child.child('hour/').value.toString();
+        // todo: create each widgets with this values
+        print(" $menu $text $stars $date $hour \n");
+      }
+    });
+  }
+
+  // push feedback to database
+  _submitFeedback(String menu, String text, int stars){
+    FeedbackEF f = FeedbackEF(menu, text , stars);
+    f.pushToDatabase(database);
+  }
 
   _checkIn(){
     setState(() {
@@ -174,7 +198,6 @@ class _MyHomePageState extends State<MyHomePage> {
     people.onValue.listen((event) {
       _people = event.snapshot.value as int;
       setState(() {});
-      print("hello");
     });
 
     return Scaffold(
