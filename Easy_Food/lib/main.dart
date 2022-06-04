@@ -8,6 +8,7 @@ import 'nav.dart';
 import 'working-hours.dart';
 import 'menu.dart';
 import 'html.dart';
+import 'feedback-view.dart';
 import 'package:location/location.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -92,6 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _checkOut(){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const FeedbackDialog()),);
     setState((){
       database.update({'people': _people - 1});
       _checkType = "Check-in";
