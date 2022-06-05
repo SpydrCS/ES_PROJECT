@@ -65,7 +65,6 @@ class _FeedBackDialogState extends State<FeedbackDialog> {
                     textInputAction: TextInputAction.done,
                   ),
                 ),
-                // feedback = _controller.text as String,
                 const SizedBox(height: 10),
                 ListTile(
                   title: const Text('Menu Carne'),
@@ -142,6 +141,7 @@ class _FeedBackDialogState extends State<FeedbackDialog> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: ()  async {
+            feedback = _controller.text;
             _submitFeedback(menu, feedback, stars);
             Navigator.pop(context);
           },
