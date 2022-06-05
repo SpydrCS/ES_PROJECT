@@ -11,6 +11,7 @@ import 'feedback_history.dart';
 import './feedback.dart';
 import 'menu.dart';
 import 'html.dart';
+import 'feedback-view.dart';
 import 'package:location/location.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -84,6 +85,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final database = FirebaseDatabase.instance.ref();
   var _people = 0;
 
+
+
 // gets feedbacks from database to create the feedback history
   _printAllFeedbackFromDB(){
     final feedbacks = database.child('feedbacks/');
@@ -100,11 +103,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  // push feedback to database
-  _submitFeedback(String menu, String text, int stars){
-    FeedbackEF f = FeedbackEF(menu, text , stars);
-    f.pushToDatabase(database);
-  }
 
   _checkIn(){
     setState(() {
@@ -117,6 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _checkOut(){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const FeedbackDialog()),);
     setState((){
       database.update({'people': _people - 1});
       _checkType = "Check-in";
