@@ -8,7 +8,7 @@ class FeedbackDialog extends StatefulWidget {
   const FeedbackDialog({Key? key}) : super(key:key);
   @override
   State<StatefulWidget> createState() => _FeedBackDialogState();
-  
+
 }
 
 enum MenuChoice { carne, peixe, vegetariano, dieta }
