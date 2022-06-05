@@ -7,6 +7,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'nav.dart';
 import 'working-hours.dart';
+import 'feedback_history.dart';
 import './feedback.dart';
 import 'menu.dart';
 import 'html.dart';
@@ -234,7 +235,7 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.indigo,
               padding: const EdgeInsets.all(50),
               onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => WebScraperApp()),);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => FeedbackHistory()),);
               },
             ),
             Visibility(
