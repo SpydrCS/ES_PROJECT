@@ -84,6 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final database = FirebaseDatabase.instance.ref();
   var _people = 0;
 
+
+
 // gets feedbacks from database to create the feedback history
   _printAllFeedbackFromDB(){
     final feedbacks = database.child('feedbacks/');
@@ -100,11 +102,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  // push feedback to database
-  _submitFeedback(String menu, String text, int stars){
-    FeedbackEF f = FeedbackEF(menu, text , stars);
-    f.pushToDatabase(database);
-  }
 
   _checkIn(){
     setState(() {

@@ -1,12 +1,14 @@
 import 'package:easy_food/menu.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'feedback.dart';
 
 class FeedbackDialog extends StatefulWidget {
   const FeedbackDialog({Key? key}) : super(key:key);
   @override
   State<StatefulWidget> createState() => _FeedBackDialogState();
-
+  
 }
 
 enum MenuChoice { carne, peixe, vegetariano, dieta }
@@ -14,6 +16,11 @@ enum MenuChoice { carne, peixe, vegetariano, dieta }
 class _FeedBackDialogState extends State<FeedbackDialog> {
   final TextEditingController _controller = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
+  String menu = "carne";
+  int stars = 0;
+  String feedback ="";
+
+  final database = FirebaseDatabase.instance.ref();
 
   MenuChoice? _character = MenuChoice.carne;
 
@@ -21,6 +28,12 @@ class _FeedBackDialogState extends State<FeedbackDialog> {
   void dispose() {
   _controller.dispose();
   super.dispose();
+  }
+
+  // push feedback to database
+  _submitFeedback(String? menu, String text, int stars){
+    FeedbackEF f = FeedbackEF(menu, text , stars);
+    f.pushToDatabase(database);
   }
 
   @override
@@ -50,14 +63,9 @@ class _FeedBackDialogState extends State<FeedbackDialog> {
                     maxLines: 5 ,
                     maxLength: 1000,
                     textInputAction: TextInputAction.done,
-                    validator: (String? text) {
-                      if(text == null || text.isEmpty) {
-                        return 'Please enter a value';
-                      }
-                      return null;
-                    },
                   ),
                 ),
+                // feedback = _controller.text as String,
                 const SizedBox(height: 10),
                 ListTile(
                   title: const Text('Menu Carne'),
@@ -67,6 +75,7 @@ class _FeedBackDialogState extends State<FeedbackDialog> {
                     onChanged: (MenuChoice? value) {
                       setState(() {
                         _character = value;
+                        menu = "carne";
                       });
                     },
                   ),
@@ -79,6 +88,7 @@ class _FeedBackDialogState extends State<FeedbackDialog> {
                     onChanged: (MenuChoice? value) {
                       setState(() {
                         _character = value;
+                        menu = "peixe";
                       });
                     },
                   ),
@@ -91,6 +101,7 @@ class _FeedBackDialogState extends State<FeedbackDialog> {
                     onChanged: (MenuChoice? value) {
                       setState(() {
                         _character = value;
+                        menu = "vegetariano";
                       });
                     },
                   ),
@@ -103,6 +114,7 @@ class _FeedBackDialogState extends State<FeedbackDialog> {
                     onChanged: (MenuChoice? value) {
                       setState(() {
                         _character = value;
+                        menu = "dieta";
                       });
                     },
                   ),
@@ -120,6 +132,7 @@ class _FeedBackDialogState extends State<FeedbackDialog> {
                   ),
                   onRatingUpdate: (rating) {
                     print(rating);
+                    stars = rating as int;
                   },
                 ),
                 const SizedBox(height: 10),
@@ -128,68 +141,16 @@ class _FeedBackDialogState extends State<FeedbackDialog> {
             )
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: ()  async {   },// code to send database),
+          onPressed: ()  async {
+            _submitFeedback(menu, feedback, stars);
+            Navigator.pop(context);
+          },
           child: const Text('Send'),
         ),
-
     );
 
 
-
-  return AlertDialog(
-
-    content: Form(
-      key: _formKey,
-      child: TextFormField(
-        controller: _controller,
-        keyboardType: TextInputType.multiline,
-        decoration: const InputDecoration(
-          hintText: 'Enter your feedback here',
-          filled: true,
-        ),
-        maxLines: 3 ,
-        maxLength: 400,
-        textInputAction: TextInputAction.done,
-        validator: (String? text) {
-          if(text == null || text.isEmpty) {
-            return 'Please enter a value';
-          }
-          return null;
-        },
-      ),
-    ),
-    actions: [
-      TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
-      TextButton(
-          child: const Text('Send'),
-          onPressed: () async {
-            /* code to send data to database */
-          },
-      ),
-      Form(
-        key: _formKey,
-        child: TextFormField(
-          controller: _controller,
-          keyboardType: TextInputType.multiline,
-          decoration: const InputDecoration(
-            hintText: 'Enter your feedback here',
-            filled: true,
-          ),
-          maxLines: 3 ,
-          maxLength: 400,
-          textInputAction: TextInputAction.done,
-          validator: (String? text) {
-            if(text == null || text.isEmpty) {
-              return 'Please enter a value';
-            }
-            return null;
-          },
-        ),
-      ),
-    ],
-    );
   }
 }
 
-// showDialog(context: context, builder: (context) => const FeedbackDialog());
 
