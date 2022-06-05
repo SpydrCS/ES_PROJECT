@@ -85,25 +85,6 @@ class _MyHomePageState extends State<MyHomePage> {
   final database = FirebaseDatabase.instance.ref();
   var _people = 0;
 
-
-
-// gets feedbacks from database to create the feedback history
-  _printAllFeedbackFromDB(){
-    final feedbacks = database.child('feedbacks/');
-    feedbacks.onValue.listen((event) {
-      for (DataSnapshot child in event.snapshot.children) {
-        String menu  = child.child('menu/').value.toString();
-        String text  = child.child('text/').value.toString();
-        int stars    = int.parse(child.child('stars/').value.toString());
-        String date  = child.child('date/').value.toString();
-        String hour  = child.child('hour/').value.toString();
-        // todo: create each widgets with this values
-        print(" $menu $text $stars $date $hour \n");
-      }
-    });
-  }
-
-
   _checkIn(){
     setState(() {
       database.update({'people': _people + 1});
