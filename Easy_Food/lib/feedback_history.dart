@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -12,13 +14,14 @@ class FeedbackHistory extends StatefulWidget {
 
 class _FeedbackHistory extends State<FeedbackHistory> {
   final database = FirebaseDatabase.instance.ref();
+  late StreamSubscription _dailySpecialStream;
   final List<Widget> _feedbacksList = [];
   int fbLength = 0;
   bool dataWasLoaded = false;
 
   _getFeedbacksFromDatabase(){
     final feedbacks = database.child('feedbacks/');
-    feedbacks.onValue.listen((event) {
+    _dailySpecialStream = feedbacks.onValue.listen((event) {
       fbLength = event.snapshot.children.length;
 
       for (DataSnapshot child in event.snapshot.children) {
@@ -30,7 +33,6 @@ class _FeedbackHistory extends State<FeedbackHistory> {
 
         // todo
         _feedbacksList.add(
-
             Container(
                 margin: const EdgeInsets.all(15.0),
                 padding: const EdgeInsets.all(10),
@@ -87,6 +89,7 @@ class _FeedbackHistory extends State<FeedbackHistory> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
+              _dailySpecialStream.cancel();
               Navigator.pop(context);
             },
           ),
